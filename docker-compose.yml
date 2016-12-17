@@ -1,0 +1,31 @@
+kibana:
+ image: kibana:latest
+ restart: always
+ ports:
+   - "5601:5601"
+ links:
+   - "esmaster:elasticsearch"
+ volumes:
+   - ./kibana/plugins:/usr/share/kibana/plugins
+ environment:
+      - ELASTICSEARCH_URL=http://elasticsearch:9200 
+esmaster:
+  image: elasticsearch:latest
+  restart: always
+  ports:
+    - "9200:9200"
+    - "9300:9300"
+  volumes:
+    - ./esmaster/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml
+esnode:
+  image: elasticsearch:latest
+  command: elasticsearch 
+  restart: always
+  volumes:
+    - ./esnode/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml
+  environment:
+    - "affinity:container!=*master*"
+    - "affinity:container!=*node*"
+  links:
+    - esmaster
+

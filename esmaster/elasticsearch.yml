@@ -1,0 +1,7 @@
+node.master: true
+node.data: true
+network.host: 0.0.0.0
+indices.recovery.max_bytes_per_sec: 100mb
+thread_pool:
+  bulk:
+    queue_size: 50 
