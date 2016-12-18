@@ -1,3 +1,14 @@
+nginx:
+ image: nginx:latest
+ restart: always
+ ports:
+   - "80:80"
+   - "9201:9201"
+ volumes:
+   - ./nginx/conf.d:/etc/nginx/conf.d
+   - ./nginx/html:/usr/share/nginx/html
+ links:
+   - "esmaster:elasticsearch"
 kibana:
  image: kibana:latest
  restart: always
